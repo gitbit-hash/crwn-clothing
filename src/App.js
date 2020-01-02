@@ -35,7 +35,6 @@ class App extends React.Component {
         });
       } else {
         setCurrentUser(userAuth);
-
       }
     });
     console.log(this.state);
@@ -69,7 +68,7 @@ class App extends React.Component {
 };
 
 const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser
+  currentUser: selectCurrentUser,
 });
 
 const mapDispatchToProps = dispatch => ({
