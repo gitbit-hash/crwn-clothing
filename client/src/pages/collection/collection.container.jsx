@@ -1,22 +1,40 @@
-import { connect } from 'react-redux';
-import { compose } from 'redux';
 
-import { createStructuredSelector } from 'reselect';
-import { selectIsCollectionsLoaded } from '../../redux/shop/shop.selectors';
+import React from 'react';
 
-import WithSpinner from '../../components/with-spinner/with-spinner.component';
+import { gql } from 'apollo-boost';
+
+import { Query } from 'react-apollo';
 
 import CollectionPage from './collection.component';
 
-const mapStateToProps = createStructuredSelector({
-  isLoading: state => !selectIsCollectionsLoaded(state)
-});
-
-const CollectionPageConatiner = compose(
-  connect(mapStateToProps),
-  WithSpinner
-)(CollectionPage);
-
-export default CollectionPageConatiner;
+import Spinner from '../../components/spinner/spinner.component';
 
 
+const GET_COLLECTION_BY_TITLE = gql`
+  query getCollectionsByTitle($title: String!) {
+    getCollectionsByTitle(title: $title) {
+      id
+      title
+      items {
+        id
+        name
+        price
+        imageUrl
+      }
+    }
+  }
+`;
+
+const CollectionPageContainer = ({ match }) => (
+  <Query query={GET_COLLECTION_BY_TITLE} variables={{ title: match.params.collectionId }} >
+    {
+      ({ loading, data }) => {
+        if (loading) return <Spinner />
+        const { getCollectionsByTitle } = data
+        return <CollectionPage collection={getCollectionsByTitle} />
+      }
+    }
+  </Query>
+);
+
+export default CollectionPageContainer;
