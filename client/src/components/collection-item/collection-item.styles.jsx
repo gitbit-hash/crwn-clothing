@@ -22,17 +22,15 @@ export const CollectionItemContainer = styled.div`
 
   @media screen and (max-width: 800px) {
     width: 40vw;
-
     &:hover {
       .image {
         opacity: unset;
       }
-
       button {
         opacity: unset;
       }    
     }
-  }   
+  }
 `;
 
 export const AddButton = styled(CustomButton)`
